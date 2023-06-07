@@ -1,16 +1,17 @@
 package com.moviebookingapp.controllers;
 
-import com.bezkoder.spring.security.mongodb.models.ERole;
-import com.bezkoder.spring.security.mongodb.models.Role;
-import com.bezkoder.spring.security.mongodb.models.User;
-import com.bezkoder.spring.security.mongodb.payload.request.LoginRequest;
-import com.bezkoder.spring.security.mongodb.payload.request.SignupRequest;
-import com.bezkoder.spring.security.mongodb.payload.response.MessageResponse;
-import com.bezkoder.spring.security.mongodb.payload.response.UserInfoResponse;
-import com.bezkoder.spring.security.mongodb.repository.RoleRepository;
-import com.bezkoder.spring.security.mongodb.repository.UserRepository;
-import com.bezkoder.spring.security.mongodb.security.jwt.JwtUtils;
-import com.bezkoder.spring.security.mongodb.security.services.UserDetailsImpl;
+
+import com.moviebookingapp.models.ERole;
+import com.moviebookingapp.models.Role;
+import com.moviebookingapp.models.User;
+import com.moviebookingapp.payload.request.LoginRequest;
+import com.moviebookingapp.payload.request.SignupRequest;
+import com.moviebookingapp.payload.response.MessageResponse;
+import com.moviebookingapp.payload.response.UserInfoResponse;
+import com.moviebookingapp.repository.RoleRepository;
+import com.moviebookingapp.repository.UserRepository;
+import com.moviebookingapp.security.jwt.JwtUtils;
+import com.moviebookingapp.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1.0/moviebooking")
 public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
@@ -47,35 +48,34 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
-  @PostMapping("/signin")
+  @PostMapping("/login")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        new UsernamePasswordAuthenticationToken(loginRequest.getLoginId(), loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
 
-    ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+    String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
 
     List<String> roles = userDetails.getAuthorities().stream()
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
 
-    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-        .body(new UserInfoResponse(userDetails.getId(),
-                                   userDetails.getUsername(),
-                                   userDetails.getEmail(),
+    return ResponseEntity.ok()
+        .body(new UserInfoResponse(userDetails.getUsername(),
+                                   jwtToken,
                                    roles));
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/register")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+    if (userRepository.existsByLoginId(signUpRequest.getLoginId())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Error: Username is already taken!"));
+          .body(new MessageResponse("Error: LoginId is already taken!"));
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -85,9 +85,12 @@ public class AuthController {
     }
 
     // Create new user's account
-    User user = new User(signUpRequest.getUsername(), 
+    User user = new User(signUpRequest.getLoginId(),
                          signUpRequest.getEmail(),
-                         encoder.encode(signUpRequest.getPassword()));
+                         encoder.encode(signUpRequest.getPassword()),
+                         signUpRequest.getFirstName(),
+                         signUpRequest.getLastName(),
+                         signUpRequest.getContactNumber());
 
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
@@ -103,16 +106,15 @@ public class AuthController {
           Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
           roles.add(adminRole);
-
           break;
-        case "mod":
-          Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(modRole);
 
+        case "user":
+          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+          roles.add(userRole);
           break;
         default:
-          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+              userRole = roleRepository.findByName(ERole.ROLE_USER)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
           roles.add(userRole);
         }

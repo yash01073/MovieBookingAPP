@@ -1,7 +1,8 @@
 package com.moviebookingapp.repository;
 
-import com.bezkoder.spring.security.mongodb.models.ERole;
-import com.bezkoder.spring.security.mongodb.models.Role;
+
+import com.moviebookingapp.models.ERole;
+import com.moviebookingapp.models.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

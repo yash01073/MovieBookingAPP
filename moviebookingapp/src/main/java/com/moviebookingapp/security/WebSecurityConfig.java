@@ -1,8 +1,9 @@
 package com.moviebookingapp.security;
 
-import com.bezkoder.spring.security.mongodb.security.jwt.AuthEntryPointJwt;
-import com.bezkoder.spring.security.mongodb.security.jwt.AuthTokenFilter;
-import com.bezkoder.spring.security.mongodb.security.services.UserDetailsServiceImpl;
+
+import com.moviebookingapp.security.jwt.AuthEntryPointJwt;
+import com.moviebookingapp.security.jwt.AuthTokenFilter;
+import com.moviebookingapp.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,8 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable()
       .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
       .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-      .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-      .antMatchers("/api/test/**").permitAll()
+      .authorizeRequests().antMatchers("/api/v1.0/**").permitAll()
+      .antMatchers("/api/v1.0/**").permitAll()
       .anyRequest().authenticated();
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -1,6 +1,7 @@
 package com.moviebookingapp.security.jwt;
 
-import com.bezkoder.spring.security.mongodb.security.services.UserDetailsServiceImpl;
+
+import com.moviebookingapp.security.services.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
