@@ -2,7 +2,9 @@ package com.moviebookingapp.controllers;
 
 import com.moviebookingapp.payload.request.ChangePasswordRequest;
 import com.moviebookingapp.payload.response.CustomResponse;
+import com.moviebookingapp.payload.response.MovieListResponse;
 import com.moviebookingapp.security.services.UserDetailsServiceImpl;
+import com.moviebookingapp.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,12 +22,11 @@ public class TestController {
   PasswordEncoder encoder;
 
   @Autowired
+  private MovieService movieService;
+
+  @Autowired
   private UserDetailsServiceImpl userDetailsService;
 
-  @GetMapping("/all")
-  public String allAccess() {
-    return "Public Content.";
-  }
 
   @GetMapping("/user")
   @PreAuthorize("hasRole('USER')")
@@ -42,13 +43,23 @@ public class TestController {
     return ResponseEntity.ok().body(new CustomResponse("4001","False","Password cannot be changed"));
   }
 
-
-
-  @GetMapping("/mod")
-  @PreAuthorize("hasRole('MODERATOR')")
-  public String moderatorAccess() {
-    return "Moderator Board.";
+  @GetMapping("/all")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<MovieListResponse> getMoviesList(){
+    MovieListResponse movieListResponse = new MovieListResponse();
+    movieListResponse.setMovieList(movieService.getAllMovies());
+    return ResponseEntity.ok().body(movieListResponse);
   }
+
+  @GetMapping("movies/search/{movieName}")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<MovieListResponse> searchMovie(@PathVariable String movieName){
+    MovieListResponse movieListResponse = new MovieListResponse();
+    movieListResponse.setMovieList(movieService.searchMovieByPartialName(movieName));
+    return ResponseEntity.ok().body(movieListResponse);
+  }
+
+
 
   @GetMapping("/admin")
   @PreAuthorize("hasRole('ADMIN')")
