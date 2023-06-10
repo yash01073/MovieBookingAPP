@@ -23,4 +23,9 @@ public class MovieServiceImpl implements MovieService{
     public List<Movie> searchMovieByPartialName(String partialName) {
         return movieRepository.findByMovieNameLike(".*" + partialName + ".*");
     }
+
+    @Override
+    public Movie findMovieByName(String movieName,String theatreName){
+        return movieRepository.findByMovieNameAndTheatreName(movieName,theatreName);
+    }
 }

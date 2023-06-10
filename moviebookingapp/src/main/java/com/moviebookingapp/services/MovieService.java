@@ -13,4 +13,6 @@ public interface MovieService {
 
     public List<Movie> searchMovieByPartialName(String partialName);
 
+    public Movie findMovieByName(String movieName,String theatreName);
+
 }
