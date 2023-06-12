@@ -16,4 +16,5 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 
     Movie findByMovieNameAndTheatreName(String movieName, String theatreName);
 
+
 }

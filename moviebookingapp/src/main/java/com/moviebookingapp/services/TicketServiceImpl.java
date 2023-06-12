@@ -24,4 +24,11 @@ public class TicketServiceImpl implements TicketService{
         return ticketRepository.save(ticket);
 
     }
+
+    @Override
+    public List<Ticket> findTicketsByMovieId(String movieId) {
+        return ticketRepository.findByMovieId(movieId);
+    }
+
+
 }

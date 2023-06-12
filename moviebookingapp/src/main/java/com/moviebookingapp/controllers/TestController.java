@@ -90,9 +90,4 @@ public class TestController {
     return "some_error_occured";
   }
 
-  @GetMapping("/admin")
-  @PreAuthorize("hasRole('ADMIN')")
-  public String adminAccess() {
-    return "Admin Board.";
-  }
 }

@@ -19,6 +19,8 @@ public class Movie {
 
     private String theatreName;
 
+    private String status;
+
 
 
 }
