@@ -4,6 +4,7 @@ import com.moviebookingapp.models.Movie;
 import com.moviebookingapp.models.Ticket;
 import com.moviebookingapp.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +27,13 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public List<Ticket> findTicketsByMovieId(String movieId) {
-        return ticketRepository.findByMovieId(movieId);
+    public int findTicketsByMovieId(String movieId) {
+        List<Ticket> ticketList = ticketRepository.findByMovieId(movieId);
+        int sumOfBookedTickets = 0;
+        for(Ticket pass:ticketList){
+            sumOfBookedTickets += pass.getNumberOfTickets();
+        }
+        return sumOfBookedTickets;
     }
 
 

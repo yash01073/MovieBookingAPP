@@ -10,7 +10,7 @@ public interface TicketService {
 
     public Ticket bookTicket(Movie movie, int numberOfTickets, List<Integer> seatNumber,String userName);
 
-    public List<Ticket> findTicketsByMovieId(String movieId);
+    public int findTicketsByMovieId(String movieId);
 
 
 }

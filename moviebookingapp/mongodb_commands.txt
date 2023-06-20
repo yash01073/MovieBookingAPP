@@ -1,0 +1,46 @@
+db.roles.insertMany([
+  {
+    name:"ROLE_USER"
+  },
+  {
+    name:"ROLE_ADMIN"
+  }
+])
+
+db.movie.insertMany([
+  {
+    movieName: "Avengers: Endgame",
+    ticketsAllotted: 100,
+    remainingTickets: 100,
+    theatreName: "World Trade Park",
+    status: ""
+  },
+  {
+    movieName: "Avengers: Endgame",
+    ticketsAllotted: 150,
+    remainingTickets: 150,
+    theatreName: "GT Central",
+    status: ""
+  },
+  {
+    movieName: "Deadpool",
+    ticketsAllotted: 120,
+    remainingTickets: 120,
+    theatreName: "EP",
+    status: ""
+  },
+  {
+    movieName: "Spiderman: No way home",
+    ticketsAllotted: 200,
+    remainingTickets: 200,
+    theatreName: "Rajmandir",
+    status: ""
+  }
+])
+
+db.movie.createIndex({ movieName: 1, theatreName: 1 }, { unique: true })
+
+
+
+
+

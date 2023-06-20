@@ -2,8 +2,7 @@ package com.moviebookingapp.services;
 
 import com.moviebookingapp.models.Movie;
 import com.moviebookingapp.models.Ticket;
-import com.moviebookingapp.payload.response.MovieListResponse;
-import com.moviebookingapp.payload.response.TicketStatusResponse;
+import com.moviebookingapp.payload.response.TicketAvailabilityResponse;
 import com.moviebookingapp.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -39,22 +38,20 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public TicketStatusResponse updateTicketStatus(List<Ticket> ticketList,Movie movie){
-        int seatsVacant,sumOfBookedTickets= 0;
-        for(Ticket pass:ticketList){
-            sumOfBookedTickets += pass.getNumberOfTickets();
+    public void updateTicketStatus(int sumOfBookedTickets,Movie movie){
+        Integer seatsVacant;
+        if(sumOfBookedTickets+movie.getRemainingTickets()==movie.getTicketsAllotted()){
+            seatsVacant = movie.getRemainingTickets();
+        }else{
+            seatsVacant = movie.getTicketsAllotted()-sumOfBookedTickets;
         }
-        seatsVacant = movie.getTicketsAllotted()-sumOfBookedTickets;
         String status = (seatsVacant==0)?"SOLD_OUT":"BOOK_ASAP";
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(movie.getId()));
         Update update = new Update();
         update.set("status", status);
-        update.set("ticketsAllotted",seatsVacant);
+        update.set("remainingTickets",seatsVacant);
         mongoTemplate.updateFirst(query, update, Movie.class);
-        //Movie updatedMovie = movieRepository.updateMovieStatusAndTicketsAllotted(movie.getId(),status,seatsVacant);
-        TicketStatusResponse ticketStatusResponse = new TicketStatusResponse(ticketList, seatsVacant, status);
-        return ticketStatusResponse;
 
     }
 }

@@ -17,6 +17,8 @@ public class Movie {
 
     private Integer ticketsAllotted;
 
+    private Integer remainingTickets;
+
     private String theatreName;
 
     private String status;

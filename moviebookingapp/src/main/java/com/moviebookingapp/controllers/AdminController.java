@@ -1,17 +1,15 @@
 package com.moviebookingapp.controllers;
 
 import com.moviebookingapp.models.Movie;
-import com.moviebookingapp.models.Ticket;
+import com.moviebookingapp.models.UpdateStatusObject;
 import com.moviebookingapp.payload.request.UpdateTicketRequest;
-import com.moviebookingapp.payload.response.TicketStatusResponse;
+import com.moviebookingapp.payload.response.TicketAvailabilityResponse;
 import com.moviebookingapp.services.MovieService;
 import com.moviebookingapp.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -24,10 +22,21 @@ public class AdminController {
     @Autowired
     MovieService movieService;
 
-    @PutMapping("/admin")
-    public ResponseEntity<TicketStatusResponse> adminAccess(@RequestBody UpdateTicketRequest ticketRequest) {
+    @Autowired
+    KafkaTemplate kafkaTemplate;
+
+    @PutMapping("/updateStatus")
+    public ResponseEntity<TicketAvailabilityResponse> adminAccess(@RequestBody UpdateTicketRequest ticketRequest) {
         Movie movie = movieService.findMovieByName(ticketRequest.getMovieName(), ticketRequest.getTheatreName());
-        return ResponseEntity.ok().body(movieService.updateTicketStatus(ticketService.findTicketsByMovieId(movie.getId()),movie));
+        UpdateStatusObject object = new UpdateStatusObject();
+        int bookedTickets = ticketService.findTicketsByMovieId(movie.getId());
+        object.setMovie(movie);
+        object.setBookedTickets(bookedTickets);
+        kafkaTemplate.send("ticket-availability-topic",object);
+        TicketAvailabilityResponse response = new TicketAvailabilityResponse();
+        response.setTicketsBooked(bookedTickets);
+        response.setMessage("Status Updated Successfully");
+        return ResponseEntity.ok().body(response);
     }
 
 }

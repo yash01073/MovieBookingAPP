@@ -7,16 +7,14 @@ import lombok.Setter;
 
 import java.util.List;
 
-@AllArgsConstructor
+
 @Getter
 @Setter
-public class TicketStatusResponse {
+public class TicketAvailabilityResponse {
 
 
-    private List<Ticket> numberOfTickets;
+    private int ticketsBooked;
 
-    private int numberOfTicketsAvailable;
-
-    private String ticketStatus;
+    private String message;
 
 }
