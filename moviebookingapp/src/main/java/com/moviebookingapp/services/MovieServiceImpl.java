@@ -1,8 +1,7 @@
 package com.moviebookingapp.services;
 
+import com.moviebookingapp.exceptions.MovieProcessException;
 import com.moviebookingapp.models.Movie;
-import com.moviebookingapp.models.Ticket;
-import com.moviebookingapp.payload.response.TicketAvailabilityResponse;
 import com.moviebookingapp.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -53,5 +52,14 @@ public class MovieServiceImpl implements MovieService{
         update.set("remainingTickets",seatsVacant);
         mongoTemplate.updateFirst(query, update, Movie.class);
 
+    }
+
+    @Override
+    public void deleteMovieById(String movieId){
+        if(movieRepository.findById(movieId).isPresent()){
+            mongoTemplate.remove(new Query(Criteria.where("id").is(movieId)), Movie.class);
+        }else{
+            throw new MovieProcessException("Error in Movie Id");
+        }
     }
 }

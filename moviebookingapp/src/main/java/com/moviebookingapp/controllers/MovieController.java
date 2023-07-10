@@ -1,5 +1,6 @@
 package com.moviebookingapp.controllers;
 
+import com.moviebookingapp.exceptions.MovieProcessException;
 import com.moviebookingapp.models.Movie;
 import com.moviebookingapp.models.Ticket;
 import com.moviebookingapp.payload.request.ChangePasswordRequest;
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1.0/moviebooking")
-public class TestController {
+public class MovieController {
 
   @Autowired
   PasswordEncoder encoder;
@@ -47,11 +48,11 @@ public class TestController {
 
   @PostMapping("/{username}/forgot")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<?> userAccess(@PathVariable String username, @Valid @RequestBody ChangePasswordRequest passwordRequest) {
+  public ResponseEntity<?> changePassword(@PathVariable String username, @Valid @RequestBody ChangePasswordRequest passwordRequest) {
     if(userDetailsService.changeUserPassword(username, encoder.encode(passwordRequest.getPassword()))){
       return ResponseEntity.ok().body(new CustomResponse("0000","True","Password Changed Successfully"));
-    }
-    return ResponseEntity.ok().body(new CustomResponse("4001","False","Password cannot be changed"));
+    }else
+    throw new MovieProcessException("Password cannot be Changed");
   }
 
   @GetMapping("/all")
@@ -65,29 +66,53 @@ public class TestController {
   @GetMapping("movies/search/{movieName}")
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity<MovieListResponse> searchMovie(@PathVariable String movieName){
+    if(movieName==null){
+      throw new MovieProcessException("Movie name is not present");
+    }
     MovieListResponse movieListResponse = new MovieListResponse();
     movieListResponse.setMovieList(movieService.searchMovieByPartialName(movieName));
     return ResponseEntity.ok().body(movieListResponse);
   }
 
   @PostMapping("/add")
-  public String bookTicket(@RequestHeader(name = "Authorization") String authtoken,@RequestBody TicketRequest ticketRequest) {
-    String token = authtoken.substring(7);
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<?> bookTicket(@RequestHeader(name = "Authorization") String authToken,@RequestBody TicketRequest ticketRequest) {
+    if(ticketRequest!=null){
+      validateTicketRequest(ticketRequest);
+    }else{
+      throw new MovieProcessException("Input valid Ticket Request");
+    }
+
+    String token = authToken.substring(7);
     String username = jwtUtils.getUserNameFromJwtToken(token);
     if (username != null) {
       Movie movie = movieService.findMovieByName(ticketRequest.getMovieName(), ticketRequest.getTheatreName());
       if (movie != null) {
         Ticket ticket = ticketService.bookTicket(movie, ticketRequest.getNumberOfSeats(), ticketRequest.getSeatNumbers(),username);
         if (ticket != null) {
-          return "ticket_booked_successfully";
+          return ResponseEntity.ok().body(new CustomResponse("0000","True","Ticket Booked Successfully"));
         }
       } else {
-        return "movie_not_valid";
+        throw new MovieProcessException("Movie not Valid");
       }
     } else {
-      return "user_not_found";
+      throw new MovieProcessException("User Not Found");
     }
-    return "some_error_occured";
+    throw new MovieProcessException("Some Error Occurred");
   }
 
+  public void validateTicketRequest(TicketRequest ticketRequest){
+    checkKeyAndValue("MovieName",ticketRequest.getMovieName());
+    checkKeyAndValue("TheatreName",ticketRequest.getTheatreName());
+    if(ticketRequest.getSeatNumbers() == null || ticketRequest.getSeatNumbers().isEmpty()
+    || ticketRequest.getSeatNumbers().size()!=ticketRequest.getNumberOfSeats()){
+      throw new MovieProcessException("Seat Numbers entered are invalid");
+    }
+
+  }
+  public void checkKeyAndValue(String key,String value){
+    if(value==null){
+      throw new MovieProcessException(key+" is not found");
+    }
+  }
 }

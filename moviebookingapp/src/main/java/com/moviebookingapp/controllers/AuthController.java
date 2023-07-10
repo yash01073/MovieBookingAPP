@@ -1,11 +1,13 @@
 package com.moviebookingapp.controllers;
 
 
+import com.moviebookingapp.exceptions.UserDetailsException;
 import com.moviebookingapp.models.ERole;
 import com.moviebookingapp.models.Role;
 import com.moviebookingapp.models.User;
 import com.moviebookingapp.payload.request.LoginRequest;
 import com.moviebookingapp.payload.request.SignupRequest;
+import com.moviebookingapp.payload.response.CustomResponse;
 import com.moviebookingapp.payload.response.MessageResponse;
 import com.moviebookingapp.payload.response.UserInfoResponse;
 import com.moviebookingapp.repository.RoleRepository;
@@ -77,13 +79,13 @@ public class AuthController {
     if (userRepository.existsByLoginId(signUpRequest.getLoginId())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Error: LoginId is already taken!"));
+          .body(new UserDetailsException("Login ID is already in use"));
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Error: Email is already in use!"));
+          .body(new UserDetailsException("Email ID is already in use"));
     }
 
     // Create new user's account
@@ -99,24 +101,24 @@ public class AuthController {
 
     if (strRoles == null) {
       Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+          .orElseThrow(() -> new UserDetailsException("Role is not found"));
       roles.add(userRole);
     } else {
       strRoles.forEach(role -> {
         switch (role) {
         case "admin":
           Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+              .orElseThrow(() -> new UserDetailsException("Role is not found"));
           roles.add(adminRole);
 
         case "user":
           Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+               .orElseThrow(() -> new UserDetailsException("Role is not found"));
           roles.add(userRole);
 
         default:
               userRole = roleRepository.findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+              .orElseThrow(() -> new UserDetailsException("Role is not found"));
           roles.add(userRole);
         }
       });
@@ -125,6 +127,6 @@ public class AuthController {
     user.setRoles(roles);
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    return ResponseEntity.ok(new CustomResponse("0000","True","User Registered Successfully"));
   }
 }

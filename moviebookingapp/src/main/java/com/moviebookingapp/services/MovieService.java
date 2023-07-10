@@ -18,4 +18,6 @@ public interface MovieService {
 
     public void updateTicketStatus(int sumOfBookedTickets, Movie movie);
 
+    public void deleteMovieById(String movieId);
+
 }
