@@ -26,44 +26,34 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.4
+    build: elk/elasticsearch/
     container_name: elasticsearch
-    restart: unless-stopped
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
-      discovery.type: single-node
-      xpack.security.enabled: false
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-    healthcheck:
-      test: "curl -f http://localhost:9200 || exit 1"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:7.17.4
+    build: elk/logstash/
     container_name: logstash
-    restart: unless-stopped
-    ports:
-      - "5044:5044"
+    command: -f /etc/logstash/conf.d/
     volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline/
-    depends_on:
+      - ./elk/logstash/config:/etc/logstash/conf.d
+    ports:
+      - "9999:9999"
+    links:
       - elasticsearch
-    healthcheck:
-      test: "curl -f http://localhost:9600 || exit 1"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.17.4
+    build: elk/kibana/
     container_name: kibana
-    restart: unless-stopped
+    volumes:
+      - ./elk/kibana/config/:/opt/kibana/config/
     ports:
       - "5601:5601"
-    environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-    depends_on:
+    links:
       - elasticsearch
-    healthcheck:
-      test: "curl -f http://localhost:5601 || exit 1"
 
 
   prometheus:

@@ -65,30 +65,32 @@ class MovieControllerTest {
         movie.setRemainingTickets(1);
         movie.setStatus("Status");
         movie.setTheatreName("Theatre Name");
-        movie.setTicketsAllotted(1);
+        movie.setTicketsAllotted(10);
         when(movieService.findMovieByName(Mockito.<String>any(), Mockito.<String>any())).thenReturn(movie);
 
         Movie movie2 = new Movie();
-        movie2.setId("42");
+        movie2.setId("43");
         movie2.setMovieName("Movie Name");
         movie2.setRemainingTickets(1);
         movie2.setStatus("Status");
         movie2.setTheatreName("Theatre Name");
-        movie2.setTicketsAllotted(1);
+        movie2.setTicketsAllotted(10);
+
+
 
         Ticket ticket = new Ticket();
         ticket.setId("42");
         ticket.setMovie(movie2);
-        ticket.setNumberOfTickets(10);
-        ticket.setSeatNumber(new ArrayList<>());
+        ticket.setNumberOfTickets(7);
+        ticket.setSeatNumber(new ArrayList<>(List.of(1,2,3,4,5,6,7)));
         ticket.setUserName("janedoe");
         when(ticketService.bookTicket(Mockito.<Movie>any(), anyInt(), Mockito.<List<Integer>>any(), Mockito.<String>any()))
                 .thenReturn(ticket);
 
         TicketRequest ticketRequest = new TicketRequest();
         ticketRequest.setMovieName("Movie Name");
-        ticketRequest.setNumberOfSeats(10);
-        ticketRequest.setSeatNumbers(new ArrayList<>());
+        ticketRequest.setNumberOfSeats(3);
+        ticketRequest.setSeatNumbers(new ArrayList<>(List.of(8,9,10)));
         ticketRequest.setTheatreName("Theatre Name");
         String content = (new ObjectMapper()).writeValueAsString(ticketRequest);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1.0/moviebooking/add")

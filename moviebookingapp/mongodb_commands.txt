@@ -40,7 +40,16 @@ db.movie.insertMany([
 
 db.movie.createIndex({ movieName: 1, theatreName: 1 }, { unique: true })
 
+start in local
+/bin:mongod
 
+Access mongo in docker
+docker exec -it containername bash
+mongosh
+show dbs
+
+Build springboot image
+ docker build -t moviebookingapp:1.0 . 
 
 
 

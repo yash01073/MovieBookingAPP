@@ -61,11 +61,11 @@ class AuthControllerTest {
         when(jwtUtils.generateTokenFromUsername(Mockito.<String>any())).thenReturn("janedoe");
         when(jwtUtils.generateJwtCookie(Mockito.<UserDetailsImpl>any())).thenReturn(null);
         when(authenticationManager.authenticate(Mockito.<Authentication>any())).thenReturn(new TestingAuthenticationToken(
-                new UserDetailsImpl("42", "jane.doe@example.org", "iloveyou", new ArrayList<>()), "Credentials"));
+                new UserDetailsImpl("42", "jane.doe@example.org", "Jane@Doe", new ArrayList<>()), "Credentials"));
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setLoginId("");
-        loginRequest.setPassword("iloveyou");
+        loginRequest.setPassword("Jane@Doe");
         String content = (new ObjectMapper()).writeValueAsString(loginRequest);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1.0/moviebooking/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -88,7 +88,7 @@ class AuthControllerTest {
         signupRequest.setFirstName("Jane");
         signupRequest.setLastName("Doe");
         signupRequest.setLoginId("42");
-        signupRequest.setPassword("iloveyou");
+        signupRequest.setPassword("Jane@Doe");
         signupRequest.setRoles(new HashSet<>());
         String content = (new ObjectMapper()).writeValueAsString(signupRequest);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1.0/moviebooking/register")

@@ -307,6 +307,230 @@
               "tooltip": false,
               "viz": false
             },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 5
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"POST\",status=\"200\",uri=\"/api/v1.0/moviebooking/register\"}[1m]))",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SUCCESS",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"POST\",status!=\"200\",uri=\"/api/v1.0/moviebooking/register\"}[1m]))",
+          "interval": "",
+          "legendFormat": "ERROR",
+          "refId": "B"
+        }
+      ],
+      "title": "POST /api/v1.0/moviebooking/register",
+      "transformations": [],
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 50,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 5
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"POST\",status=\"200\",uri=\"/api/v1.0/moviebooking/login\"}[1m]))",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SUCCESS",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"POST\",status!=\"200\",uri=\"/api/v1.0/moviebooking/login\"}[1m]))",
+          "interval": "",
+          "legendFormat": "ERROR",
+          "refId": "B"
+        }
+      ],
+      "title": "POST /api/v1.0/moviebooking/login",
+      "transformations": [],
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 50,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
             "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
@@ -370,7 +594,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"GET\",status=\"200\",uri=\"/api/v1.0/moviebooking/search\"}[1m]))",
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"GET\",status=\"200\",uri=\"/api/v1.0/moviebooking/movies/search/{movieName}\"}[1m]))",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -383,7 +607,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"GET\",status!=\"200\",uri=\"/api/v1.0/moviebooking/search\"}[1m]))",
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"GET\",status!=\"200\",uri=\"/api/v1.0/moviebooking/movies/search/{movieName}\"}[1m]))",
           "interval": "",
           "legendFormat": "ERROR",
           "refId": "B"
@@ -591,7 +815,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"DELETE\",status=\"200\",uri=\"/api/v1.0/moviebooking/delete\"}[1m]))",
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"DELETE\",status=\"200\",uri=\"/api/v1.0/moviebooking/delete/{movieId}\"}[1m]))",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -604,13 +828,124 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"DELETE\",status!=\"200\",uri=\"/api/v1.0/moviebooking/delete\"}[1m]))",
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"DELETE\",status!=\"200\",uri=\"/api/v1.0/moviebooking/delete/{movieId}\"}[1m]))",
           "interval": "",
           "legendFormat": "ERROR",
           "refId": "B"
         }
       ],
-      "title": "DELETE /api/v1.0/moviebooking/delete",
+      "title": "DELETE /api/v1.0/moviebooking/delete/{movieId}",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 50,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 10
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.4.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"PUT\",status=\"200\",uri=\"/api/v1.0/moviebooking/updateStatus\"}[1m]))",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "SUCCESS",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"moviebookingapp\",method=\"PUT\",status!=\"200\",uri=\"/api/v1.0/moviebooking/updateStatus\"}[1m]))",
+          "interval": "",
+          "legendFormat": "ERROR",
+          "refId": "B"
+        }
+      ],
+      "title": "PUT /api/v1.0/moviebooking/updateStatus",
       "transparent": true,
       "type": "timeseries"
     }
