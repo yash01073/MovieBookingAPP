@@ -14,6 +14,8 @@ import com.moviebookingapp.repository.RoleRepository;
 import com.moviebookingapp.repository.UserRepository;
 import com.moviebookingapp.security.jwt.JwtUtils;
 import com.moviebookingapp.security.services.UserDetailsImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -35,6 +37,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1.0/moviebooking")
 public class AuthController {
+
+  private final Logger logger = LogManager.getLogger(AuthController.class);
   @Autowired
   AuthenticationManager authenticationManager;
 
@@ -52,7 +56,7 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
+    logger.info("Inside autheticateUser Controller");
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getLoginId(), loginRequest.getPassword()));
 
@@ -76,6 +80,7 @@ public class AuthController {
 
   @PostMapping("/register")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    logger.info("Inside registerUser Controller");
     if (userRepository.existsByLoginId(signUpRequest.getLoginId())) {
       return ResponseEntity
           .badRequest()
