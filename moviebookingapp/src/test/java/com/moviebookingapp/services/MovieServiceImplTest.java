@@ -13,12 +13,16 @@ import com.moviebookingapp.repository.MovieRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.UpdateDefinition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -34,9 +38,7 @@ class MovieServiceImplTest {
     @Autowired
     private MovieServiceImpl movieServiceImpl;
 
-    /**
-     * Method under test: {@link MovieServiceImpl#getAllMovies()}
-     */
+
     @Test
     void testGetAllMovies() {
         ArrayList<Movie> movieList = new ArrayList<>();
@@ -47,9 +49,15 @@ class MovieServiceImplTest {
         verify(movieRepository).findAll();
     }
 
-    /**
-     * Method under test: {@link MovieServiceImpl#searchMovieByPartialName(String)}
-     */
+
+    @Test
+    void testGetAllMoviesNegative() {
+        when(movieRepository.findAll()).thenThrow(new MovieProcessException("An error occurred"));
+        assertThrows(MovieProcessException.class, () -> movieServiceImpl.getAllMovies());
+        verify(movieRepository).findAll();
+    }
+
+
     @Test
     void testSearchMovieByPartialName() {
         ArrayList<Movie> movieList = new ArrayList<>();
@@ -60,20 +68,16 @@ class MovieServiceImplTest {
         verify(movieRepository).findByMovieNameLike(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link MovieServiceImpl#searchMovieByPartialName(String)}
-     */
+
     @Test
-    void testSearchMovieByPartialName2() {
+    void testSearchMovieByPartialNameNegative() {
         when(movieRepository.findByMovieNameLike(Mockito.<String>any()))
                 .thenThrow(new MovieProcessException("An error occurred"));
         assertThrows(MovieProcessException.class, () -> movieServiceImpl.searchMovieByPartialName("Partial Name"));
         verify(movieRepository).findByMovieNameLike(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link MovieServiceImpl#findMovieByName(String, String)}
-     */
+
     @Test
     void testFindMovieByName() {
         Movie movie = new Movie();
@@ -89,15 +93,88 @@ class MovieServiceImplTest {
         verify(movieRepository).findByMovieNameAndTheatreName(Mockito.<String>any(), Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link MovieServiceImpl#findMovieByName(String, String)}
-     */
+
     @Test
-    void testFindMovieByName2() {
+    void testFindMovieByNameNegative() {
         when(movieRepository.findByMovieNameAndTheatreName(Mockito.<String>any(), Mockito.<String>any()))
                 .thenThrow(new MovieProcessException("An error occurred"));
         assertThrows(MovieProcessException.class, () -> movieServiceImpl.findMovieByName("Movie Name", "Theatre Name"));
         verify(movieRepository).findByMovieNameAndTheatreName(Mockito.<String>any(), Mockito.<String>any());
+    }
+
+
+    @Test
+    void testUpdateTicketStatus() {
+        when(mongoTemplate.updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
+                Mockito.<Class<Object>>any())).thenReturn(null);
+
+        Movie movie = new Movie();
+        movie.setId("42");
+        movie.setMovieName("Movie Name");
+        movie.setRemainingTickets(1);
+        movie.setStatus("Status");
+        movie.setTheatreName("Theatre Name");
+        movie.setTicketsAllotted(1);
+        movieServiceImpl.updateTicketStatus(1, movie);
+        verify(mongoTemplate).updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
+                Mockito.<Class<Object>>any());
+    }
+
+
+
+
+    @Test
+    void testUpdateTicketStatusNegative() {
+        when(mongoTemplate.updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
+                Mockito.<Class<Object>>any())).thenThrow(new MovieProcessException("An error occurred"));
+
+        Movie movie = new Movie();
+        movie.setId("42");
+        movie.setMovieName("Movie Name");
+        movie.setRemainingTickets(1);
+        movie.setStatus("Status");
+        movie.setTheatreName("Theatre Name");
+        movie.setTicketsAllotted(1);
+        assertThrows(MovieProcessException.class, () -> movieServiceImpl.updateTicketStatus(1, movie));
+        verify(mongoTemplate).updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
+                Mockito.<Class<Object>>any());
+    }
+
+
+    @Test
+    void testDeleteMovieById() {
+        Movie movie = new Movie();
+        movie.setId("42");
+        movie.setMovieName("Movie Name");
+        movie.setRemainingTickets(1);
+        movie.setStatus("Status");
+        movie.setTheatreName("Theatre Name");
+        movie.setTicketsAllotted(1);
+        Optional<Movie> ofResult = Optional.of(movie);
+        when(movieRepository.findById(Mockito.<String>any())).thenReturn(ofResult);
+        when(mongoTemplate.remove(Mockito.<Query>any(), Mockito.<Class<Object>>any())).thenReturn(null);
+        movieServiceImpl.deleteMovieById("42");
+        verify(movieRepository).findById(Mockito.<String>any());
+        verify(mongoTemplate).remove(Mockito.<Query>any(), Mockito.<Class<Object>>any());
+    }
+
+
+    @Test
+    void testDeleteMovieByIdNegative() {
+        Movie movie = new Movie();
+        movie.setId("42");
+        movie.setMovieName("Movie Name");
+        movie.setRemainingTickets(1);
+        movie.setStatus("Status");
+        movie.setTheatreName("Theatre Name");
+        movie.setTicketsAllotted(1);
+        Optional<Movie> ofResult = Optional.of(movie);
+        when(movieRepository.findById(Mockito.<String>any())).thenReturn(ofResult);
+        when(mongoTemplate.remove(Mockito.<Query>any(), Mockito.<Class<Object>>any()))
+                .thenThrow(new MovieProcessException("An error occurred"));
+        assertThrows(MovieProcessException.class, () -> movieServiceImpl.deleteMovieById("42"));
+        verify(movieRepository).findById(Mockito.<String>any());
+        verify(mongoTemplate).remove(Mockito.<Query>any(), Mockito.<Class<Object>>any());
     }
 
 
