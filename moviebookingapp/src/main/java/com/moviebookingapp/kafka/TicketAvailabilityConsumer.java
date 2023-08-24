@@ -23,4 +23,14 @@ public class TicketAvailabilityConsumer {
         // Perform the update operation in the movie table using a repository or service method
         movieService.updateTicketStatus(object.getBookedTickets(), object.getMovie());
     }
+
+    @KafkaListener(topics = "delete-movie-topic",groupId = "group_id",containerFactory = "kafkaLister")
+    public void consumeDeleteMovie(String movieId) {
+        // Delete Movie from table
+
+
+        // Perform the delete operation in the movie table using a repository or service method
+        movieService.deleteMovieById(movieId);
+    }
+
 }
