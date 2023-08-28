@@ -1,0 +1,22 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  .container-fluid {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .vh-100 {
+    min-height: 100vh;
+    display: flex;
+  }
+  
+  .text-center {
+    padding: 2rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+  }
+  

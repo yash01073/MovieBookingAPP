@@ -1,0 +1,27 @@
+.vh-100 {
+  min-height: 100vh;
+  display: flex;
+}
+
+.container-fluid {
+  height: 100vh; /* Set container to full viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 90%; /* Set a reasonable width for the card */
+  max-width: 400px; /* Optionally, set a max width to ensure it doesn't become too wide */
+  margin: 0 auto; /* Center the card horizontally */
+  background-color: lightblue;
+}
+
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  width: 100%;
+}
