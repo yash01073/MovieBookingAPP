@@ -1,0 +1,16 @@
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  
