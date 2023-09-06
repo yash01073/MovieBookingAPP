@@ -1,0 +1,17 @@
+.vh-100 {
+    min-height: 100vh;
+    display: flex;
+  }
+  
+  .card {
+    width: 400px;
+    background-color: orangered;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .btn-primary {
+    width: 100%;
+  }

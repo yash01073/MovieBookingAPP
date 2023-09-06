@@ -1,16 +1,36 @@
 .card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .card-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .card-text {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
-  
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-text1 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: green; /* Default text color */
+}
+
+.card-text2 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: red; /* Default text color */
+  font-weight: bold;
+}
+/* Custom style for Active status */
+.active-status {
+  color: green;
+}
+
+/* Custom style for Inactive status */
+.inactive-status {
+  color: red;
+}
+
+.card-img-top {
+  max-height: 400px;
+  object-fit: cover;
+}

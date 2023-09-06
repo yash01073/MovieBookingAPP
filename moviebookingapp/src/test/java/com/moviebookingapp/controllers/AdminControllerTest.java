@@ -29,6 +29,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ContextConfiguration(classes = {AdminController.class})
 @ExtendWith(SpringExtension.class)
 class AdminControllerTest {
@@ -61,7 +64,9 @@ class AdminControllerTest {
     @Test
     void testUpdateStatus() throws Exception {
         when(ticketService.findTicketsByMovieId(Mockito.<String>any())).thenReturn(1);
-
+        List<Integer> bookedSeats = new ArrayList<>();
+        bookedSeats.add(1);
+        bookedSeats.add(2);
         Movie movie = new Movie();
         movie.setId("12345");
         movie.setMovieName("Avengers");
@@ -69,7 +74,8 @@ class AdminControllerTest {
         movie.setStatus("Status");
         movie.setTheatreName("Rajmandir");
         movie.setTicketsAllotted(10);
-        doNothing().when(movieService).updateTicketStatus(anyInt(), Mockito.<Movie>any());
+        movie.setBookedSeatNumbers(bookedSeats);
+        doNothing().when(movieService).updateTicketStatus(anyInt(), Mockito.<Movie>any(),Mockito.<List<Integer>>any());
         when(movieService.findMovieByName(Mockito.<String>any(), Mockito.<String>any())).thenReturn(movie);
 
         UpdateTicketRequest updateTicketRequest = new UpdateTicketRequest();

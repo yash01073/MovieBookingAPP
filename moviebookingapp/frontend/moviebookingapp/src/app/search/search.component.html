@@ -1,0 +1,49 @@
+<!-- movie-list.component.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page - BookMyMovie</title>
+  </head>
+  
+  
+  <body>
+    <app-header></app-header>
+<div class="container">
+    <div class="row">
+      <div class="col-10 col-md-6">
+        <div class="input-group mb-1">
+          <input type="text" class="form-control" placeholder="Enter movie name" [(ngModel)]="searchQuery" (input)="searchMovies()">
+          <div class="input-group-append">
+            <button class="btn btn-primary" (click)="searchMovies()">
+              <i class="fa fa-search"></i> Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <!-- Display movie cards here -->
+      <div class="col-md-4 mb-4" *ngFor="let movie of movieList">
+        <div class="card">
+            <img [src]="movie.posterLink" class="card-img-top" alt="{{ movie.movieName }} Poster">
+            <div class="card-body">
+              <h5 class="card-title">{{ movie.movieName }}</h5>
+              <p class="card-text1">{{ movie.theatreName }}</p>
+              <p class="card-text2">{{ movie.status }}</p>
+              <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary" (click)="bookMovie(movie)">Book Movie</button>
+            <!-- Add more movie details here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<app-footer></app-footer>
+</body>
+
+</html>
+

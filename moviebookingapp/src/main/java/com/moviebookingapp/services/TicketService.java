@@ -12,5 +12,7 @@ public interface TicketService {
 
     public int findTicketsByMovieId(String movieId);
 
+    public List<Integer> calculateAllSeatNumbersByMovieId(String movieId);
+
 
 }

@@ -16,7 +16,7 @@ public interface MovieService {
 
     public Movie findMovieByName(String movieName,String theatreName);
 
-    public void updateTicketStatus(int sumOfBookedTickets, Movie movie);
+    public void updateTicketStatus(int sumOfBookedTickets, Movie movie, List<Integer> bookedSeatNumbers);
 
     public void deleteMovieById(String movieId);
 

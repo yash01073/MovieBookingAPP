@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,13 +45,17 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public void updateTicketStatus(int sumOfBookedTickets,Movie movie){
+    public void updateTicketStatus(int sumOfBookedTickets,Movie movie, List<Integer> bookedSeatNumbers){
         logger.info("Inside updateTicketStatus");
         Integer seatsVacant;
+        List<Integer> bookedTickets = new ArrayList<>();
         if(sumOfBookedTickets+movie.getRemainingTickets()==movie.getTicketsAllotted()){
+            logger.info("No update needed");
             seatsVacant = movie.getRemainingTickets();
+            bookedTickets = movie.getBookedSeatNumbers();
         }else{
             seatsVacant = movie.getTicketsAllotted()-sumOfBookedTickets;
+            bookedTickets = bookedSeatNumbers;
         }
         String status = (seatsVacant==0)?"SOLD_OUT":"BOOK_ASAP";
         Query query = new Query();
@@ -58,6 +63,7 @@ public class MovieServiceImpl implements MovieService{
         Update update = new Update();
         update.set("status", status);
         update.set("remainingTickets",seatsVacant);
+        update.set("bookedSeatNumbers",bookedTickets);
         mongoTemplate.updateFirst(query, update, Movie.class);
 
     }
