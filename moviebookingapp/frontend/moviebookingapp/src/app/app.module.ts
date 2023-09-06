@@ -11,6 +11,13 @@ import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SeatSelectionComponent } from './seat-selection/seat-selection.component';
+import { SuccessComponent } from './success/success.component';
+import { ErrorComponent } from './error/error.component';
+import { SearchComponent } from './search/search.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +27,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     RegisterComponent,
     HeaderComponent,
     FooterComponent,
-    DashboardComponent
+    DashboardComponent,
+    SeatSelectionComponent,
+    SuccessComponent,
+    ErrorComponent,
+    SearchComponent,
+    ResetPasswordComponent,
+    AdminDashboardComponent,
+    AdminLoginComponent
   ],
   imports: [
     BrowserModule,

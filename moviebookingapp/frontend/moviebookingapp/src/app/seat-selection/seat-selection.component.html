@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Selection page - BookMyMovie</title>
+  </head>
+  
+
+  <body>
+    <app-header></app-header>
+
+<div class="container">
+    <h2 class="mt-4 mb-3">Select Seats</h2>
+    <div class="seat-grid">
+      <div
+      class="d-flex justify-content-center align-items-center"
+        *ngFor="let seatNumber of seatNumbers; let i = index"
+        [class.booked]="isSeatBooked(seatNumber)"
+        [class.occupied]="isSeatSelected(seatNumber)"
+        [class.available]="!isSeatBooked(seatNumber) && !isSeatSelected(seatNumber)"
+        (click)="toggleSeatSelection(seatNumber)"
+      >
+        {{ i+1 }}
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="theater-screen">Screen Here</div>
+  <div class="center-container">
+  <button class="btn btn-primary submit-button" (click)="submitBooking()">Submit Booking</button>
+</div>
+  <app-footer></app-footer>
+  </body>
+</html>
+  

@@ -1,0 +1,68 @@
+/* seat-selection.component.css */
+
+/* Style for the seat grid */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); /* Adjust the number of columns as needed */
+    grid-gap: 10px;
+  }
+  
+  /* Style for each seat block */
+  .seat-block {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    border: 5px solid black;
+    background-color: #eee;
+  }
+  
+  /* Style for occupied seats */
+  .occupied {
+    background-color: rgb(37, 79, 249); /* Red background for occupied seats */
+    color: #fff; /* White text for occupied seats */
+  }
+  
+  /* Style for available seats */
+  .available {
+    background-color: white; /* Green background for available seats */
+    border: 1px solid black;
+  }
+
+  .booked{
+    background-color:rgb(37, 79, 249);
+    color: #fff;
+  }
+  
+  /* Style for the submit button */
+  .submit-button {
+    margin-top: 20px;
+  }
+  
+  /* Optional: Add hover effect to seats */
+  .available:hover {
+    background-color: #ccc;
+  }
+  
+  .theater-screen {
+    width: 74%;
+    height: 20px;
+    background-color: grey; /* Theater screen color */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 165px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  .center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+  }
