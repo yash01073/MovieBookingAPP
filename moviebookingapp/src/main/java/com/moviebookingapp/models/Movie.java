@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Document(collection = "movie")
@@ -21,7 +23,11 @@ public class Movie {
 
     private String theatreName;
 
+    private List<Integer> bookedSeatNumbers;
+
     private String status;
+
+    private String posterLink;
 
 
 

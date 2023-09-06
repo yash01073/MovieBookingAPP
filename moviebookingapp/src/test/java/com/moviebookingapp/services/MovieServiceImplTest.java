@@ -107,7 +107,8 @@ class MovieServiceImplTest {
     void testUpdateTicketStatus() {
         when(mongoTemplate.updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
                 Mockito.<Class<Object>>any())).thenReturn(null);
-
+        List<Integer> bookedSeats = new ArrayList<>();
+        bookedSeats.add(1);
         Movie movie = new Movie();
         movie.setId("42");
         movie.setMovieName("Movie Name");
@@ -115,7 +116,7 @@ class MovieServiceImplTest {
         movie.setStatus("Status");
         movie.setTheatreName("Theatre Name");
         movie.setTicketsAllotted(1);
-        movieServiceImpl.updateTicketStatus(1, movie);
+        movieServiceImpl.updateTicketStatus(1, movie,bookedSeats);
         verify(mongoTemplate).updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
                 Mockito.<Class<Object>>any());
     }
@@ -127,7 +128,8 @@ class MovieServiceImplTest {
     void testUpdateTicketStatusNegative() {
         when(mongoTemplate.updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
                 Mockito.<Class<Object>>any())).thenThrow(new MovieProcessException("An error occurred"));
-
+        List<Integer> bookedSeats = new ArrayList<>();
+        bookedSeats.add(1);
         Movie movie = new Movie();
         movie.setId("42");
         movie.setMovieName("Movie Name");
@@ -135,7 +137,7 @@ class MovieServiceImplTest {
         movie.setStatus("Status");
         movie.setTheatreName("Theatre Name");
         movie.setTicketsAllotted(1);
-        assertThrows(MovieProcessException.class, () -> movieServiceImpl.updateTicketStatus(1, movie));
+        assertThrows(MovieProcessException.class, () -> movieServiceImpl.updateTicketStatus(1, movie,bookedSeats));
         verify(mongoTemplate).updateFirst(Mockito.<Query>any(), Mockito.<UpdateDefinition>any(),
                 Mockito.<Class<Object>>any());
     }

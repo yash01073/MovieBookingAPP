@@ -17,10 +17,14 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1.0/moviebooking")
 public class AdminController {
+
+    private final Logger logger = LogManager.getLogger(AdminController.class);
 
     @Autowired
     TicketService ticketService;
@@ -34,13 +38,17 @@ public class AdminController {
     @PutMapping("/updateStatus")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TicketAvailabilityResponse> updateStatus(@RequestBody UpdateTicketRequest ticketRequest) {
+        logger.info("Inside updateStatus Controller");
         validateTicketRequest(ticketRequest);
         Movie movie = movieService.findMovieByName(ticketRequest.getMovieName(), ticketRequest.getTheatreName());
         UpdateStatusObject object = new UpdateStatusObject();
         int bookedTickets = ticketService.findTicketsByMovieId(movie.getId());
+        List<Integer> seatNumber = ticketService.calculateAllSeatNumbersByMovieId(movie.getId());
         object.setMovie(movie);
         object.setBookedTickets(bookedTickets);
+        object.setAllSeatNumbers(seatNumber);
         kafkaTemplate.send("ticket-availability-topic",object);
+        //movieService.updateTicketStatus(object.getBookedTickets(), object.getMovie());
         TicketAvailabilityResponse response = new TicketAvailabilityResponse();
         response.setTicketsBooked(bookedTickets);
         response.setMessage("Status Updated Successfully");
@@ -50,20 +58,18 @@ public class AdminController {
     @DeleteMapping("/delete/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MessageResponse> deleteMovie(@PathVariable String movieId){
+        logger.info("Inside deleteMovie Controller");
         if(movieId==null){
             throw new MovieProcessException("Movie Id is not present");
         }
-        //movieService.deleteMovieById(movieId);
-        // Added delete movie with Kafka
-        kafkaTemplate.send("delete-movie-topic",movieId);
+        movieService.deleteMovieById(movieId);
+        //kafkaTemplate.send("delete-movie-topic",movieId);
 
         return ResponseEntity.ok().body(new MessageResponse("Movie Deleted Successfully"));
     }
-
     public void validateTicketRequest(UpdateTicketRequest ticketRequest){
         checkKeyAndValue("MovieName",ticketRequest.getMovieName());
-        checkKeyAndValue("TheatreName",ticketRequest.getTheatreName());
-    }
+        checkKeyAndValue("TheatreName",ticketRequest.getTheatreName());}
     public void checkKeyAndValue(String key,String value){
         if(value==null){
             throw new MovieProcessException(key+" is not found");

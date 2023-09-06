@@ -1,5 +1,6 @@
 package com.moviebookingapp.services;
 
+import com.moviebookingapp.exceptions.MovieProcessException;
 import com.moviebookingapp.models.Movie;
 import com.moviebookingapp.models.Ticket;
 import com.moviebookingapp.repository.TicketRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +29,9 @@ public class TicketServiceImpl implements TicketService{
         ticket.setNumberOfTickets(numberOfTickets);
         ticket.setSeatNumber(seatNumber);
         ticket.setUserName(userName);
+        if(seatNumber.size()!=numberOfTickets){
+            throw new MovieProcessException("Seat Numbers not valid");
+        }
         return ticketRepository.save(ticket);
 
     }
@@ -40,6 +45,17 @@ public class TicketServiceImpl implements TicketService{
             sumOfBookedTickets += pass.getNumberOfTickets();
         }
         return sumOfBookedTickets;
+    }
+
+    @Override
+    public List<Integer> calculateAllSeatNumbersByMovieId(String movieId) {
+        List<Ticket> ticketList = ticketRepository.findByMovieId(movieId);
+        List<Integer> allSeatNumbers = new ArrayList<>();
+        for (Ticket ticket : ticketList) {
+            List<Integer> seatNumbers = ticket.getSeatNumber();
+            allSeatNumbers.addAll(seatNumbers);
+        }
+        return allSeatNumbers;
     }
 
 

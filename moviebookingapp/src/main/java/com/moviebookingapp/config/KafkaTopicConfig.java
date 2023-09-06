@@ -13,9 +13,9 @@ public class KafkaTopicConfig {
         return new NewTopic("ticket-availability-topic", 1, (short) 1);
     }
 
-    @Bean
+    /*@Bean
     public NewTopic deleteMovieTopic(){
         return new NewTopic("delete-movie-topic",1,(short) 1);
     }
-
+*/
 }

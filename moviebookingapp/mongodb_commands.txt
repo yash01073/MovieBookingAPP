@@ -10,31 +10,40 @@ db.roles.insertMany([
 db.movie.insertMany([
   {
     movieName: "Avengers: Endgame",
-    ticketsAllotted: 100,
-    remainingTickets: 100,
+    ticketsAllotted: 120,
+    remainingTickets: 120,
     theatreName: "World Trade Park",
-    status: ""
+    status: "",
+    bookedSeatNumbers: [],
+    posterLink: "/assets/avengers.jpg",
+
   },
   {
     movieName: "Avengers: Endgame",
-    ticketsAllotted: 150,
-    remainingTickets: 150,
+    ticketsAllotted: 120,
+    remainingTickets: 120,
     theatreName: "GT Central",
-    status: ""
+    status: "",
+    bookedSeatNumbers: [],
+    posterLink: "/assets/avengers.jpg"
   },
   {
     movieName: "Deadpool",
     ticketsAllotted: 120,
     remainingTickets: 120,
     theatreName: "EP",
-    status: ""
+    status: "",
+    bookedSeatNumbers: [],
+    posterLink: "/assets/deadpool.jpg"
   },
   {
     movieName: "Spiderman: No way home",
-    ticketsAllotted: 200,
-    remainingTickets: 200,
+    ticketsAllotted: 120,
+    remainingTickets: 120,
     theatreName: "Rajmandir",
-    status: ""
+    status: "",
+    bookedSeatNumbers: [],
+    posterLink: "/assets/spiderman.jpg"
   }
 ])
 
