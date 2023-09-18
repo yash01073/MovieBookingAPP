@@ -55,7 +55,9 @@ movieList: any[] = [];
         this.movieList = response.movieList.filter((movie: any) => movie.remainingTickets > 0);
       },
       error => {
-        console.error('Error fetching movie list', error);
+        this.router.navigate(['/error'], {
+          queryParams: { message: 'Error Fetching Movie List!' }
+        });
       }
     );
     }
@@ -83,8 +85,9 @@ movieList: any[] = [];
         this.router.navigate(['/admin-dashboard'], {
         });
       } catch (error) {
-        // Handle errors here
-        
+        this.router.navigate(['/error'], {
+          queryParams: { message: 'Updating Failed!' }
+        });
       }
     }
 
@@ -105,7 +108,9 @@ movieList: any[] = [];
             console.log(JSON.stringify(response));
           },
           error => {
-            console.error('Error fetching movie list', error);
+            this.router.navigate(['/error'], {
+              queryParams: { message: 'Delete Failed!' }
+            });
           }
         );
       }

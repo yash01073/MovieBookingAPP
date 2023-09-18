@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 @NgModule({
   declarations: [
+    
     AppComponent,
     LoginComponent,
     HomeComponent,
@@ -37,6 +39,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
     AdminLoginComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

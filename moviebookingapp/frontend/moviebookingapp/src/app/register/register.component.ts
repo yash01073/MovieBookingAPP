@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-//import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule,FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +22,16 @@ export class RegisterComponent {
 
   passwordsMatch = true;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  // Declare registerForm as a FormGroup property
+  registerForm: FormGroup;
+
+  constructor(private http: HttpClient, private router: Router,private formBuilder: FormBuilder) {
+    // Initialize the registerForm property with the form controls and validators
+    this.registerForm = this.formBuilder.group({
+      contactNumber: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+      // Add other form controls here if needed
+    });
+  }
 
   register() {
     
@@ -41,17 +50,11 @@ export class RegisterComponent {
         this.router.navigate(['']);
       },
       error => {
-        console.error('Registration failed', error);
-        //this.showErrorModal();
+        this.router.navigate(['/error'], {
+          queryParams: { message: 'Registration Failed!' }
+        });
       }
     );
   }
 
-  // showSuccessModal() {
-  //   this.modalService.open(SuccessModalComponent);
-  // }
-
-  // showErrorModal() {
-  //   this.modalService.open(ErrorModalComponent);
-  // }
 }

@@ -91,8 +91,9 @@ export class SeatSelectionComponent implements OnInit {
       });
     } catch (error) {
       // Handle errors here
-      console.error('Booking API Error', error);
-      throw error; // Rethrow the error
+      this.router.navigate(['/error'], {
+        queryParams: { message: 'Booking Failed.. Please Try Again.' }
+      });
     }
   
     
