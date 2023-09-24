@@ -11,6 +11,7 @@ import com.moviebookingapp.security.jwt.JwtUtils;
 import com.moviebookingapp.security.services.UserDetailsServiceImpl;
 import com.moviebookingapp.services.MovieService;
 import com.moviebookingapp.services.TicketService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,13 @@ public class MovieController {
 
   @PostMapping("/{username}/forgot")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<?> changePassword(@PathVariable String username, @Valid @RequestBody ChangePasswordRequest passwordRequest) {
+  public ResponseEntity<?> changePassword(@RequestHeader(name = "Authorization") String authToken,@PathVariable String username, @Valid @RequestBody ChangePasswordRequest passwordRequest) {
     logger.info("Inside Password change Controller");
+    String token = authToken.substring(7);
+    String loggedUsername = jwtUtils.getUserNameFromJwtToken(token);
+    if(!StringUtils.equals(username,loggedUsername)){
+      throw new MovieProcessException("Username is not correct");
+    }
     if(userDetailsService.changeUserPassword(username, encoder.encode(passwordRequest.getPassword()))){
       return ResponseEntity.ok().body(new CustomResponse("0000","True","Password Changed Successfully"));
     }else

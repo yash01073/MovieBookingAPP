@@ -37,11 +37,18 @@ export class ResetPasswordComponent {
       this.router.navigate(['/success'], {
         queryParams: { message: 'Password changed!' }
       });
-    } catch (error) {
+    } catch (error: any) {
       // Handle errors here
+      console.log("Error: ",error);
+      if(error.error.message==="Username is not correct"){
+        this.router.navigate(['/error'], {
+          queryParams: { message: 'Username is not correct!' }
+        });
+      }else{
       this.router.navigate(['/error'], {
         queryParams: { message: 'An error occured!' }
       });
+    }
     }
   }
 }
