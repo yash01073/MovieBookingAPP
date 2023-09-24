@@ -82,8 +82,7 @@ movieList: any[] = [];
         console.log(JSON.stringify(updateRequest));
         const response = await this.http.put(apiUrl, updateRequest, { headers }).toPromise();
         console.log(JSON.stringify(response));
-        this.router.navigate(['/admin-dashboard'], {
-        });
+        this.router.navigate(['/admin-dashboard']);
       } catch (error) {
         this.router.navigate(['/error'], {
           queryParams: { message: 'Updating Failed!' }
@@ -106,6 +105,8 @@ movieList: any[] = [];
         this.http.delete((`${apiUrl}/${id}`),{headers}).subscribe(
           (response: any) => {
             console.log(JSON.stringify(response));
+            this.router.navigate(['/admin-dashboard']
+            );
           },
           error => {
             this.router.navigate(['/error'], {

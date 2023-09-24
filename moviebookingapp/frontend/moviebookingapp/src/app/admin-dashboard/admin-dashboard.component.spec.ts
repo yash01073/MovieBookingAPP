@@ -55,7 +55,7 @@ describe('AdminDashboardComponent', () => {
     req.flush(mockResponse);
 
     // Assert that router.navigate was not called (success case)
-    expect(router.navigate).not.toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/admin-dashboard'])
 
     
   });

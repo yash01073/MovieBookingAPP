@@ -84,11 +84,18 @@ export class SeatSelectionComponent implements OnInit {
 
     try {
       // Make the POST request with headers and the booking request data
-      console.log(JSON.stringify(bookingRequest));
-      const response = await this.http.post(apiUrl, bookingRequest, { headers }).toPromise();
-      this.router.navigate(['/success'], {
-        queryParams: { message: 'Booking successful!' }
-      });
+      if(this.selectedSeats.length!=0){
+        console.log(JSON.stringify(bookingRequest));
+        const response = await this.http.post(apiUrl, bookingRequest, { headers }).toPromise();
+        this.router.navigate(['/success'], {
+          queryParams: { message: 'Booking successful!' }
+        });
+      }else{
+        this.router.navigate(['/error'], {
+          queryParams: { message: 'Booking Failed.. No seats selected.' }
+        });
+      }
+      
     } catch (error) {
       // Handle errors here
       this.router.navigate(['/error'], {

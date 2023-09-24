@@ -47,7 +47,7 @@ export class RegisterComponent {
       response => {
         console.log('Registration successful', response);
         //this.showSuccessModal();
-        this.router.navigate(['']);
+        this.router.navigate(['/login']);
       },
       error => {
         this.router.navigate(['/error'], {

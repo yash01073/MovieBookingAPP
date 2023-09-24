@@ -92,3 +92,11 @@ services:
       - mongodb
       - kafka
 
+  angularmoviebookingapp:
+    image: moviebookingappfrontend:1.0
+    container_name: angularmoviebookingapp
+    ports:
+      - "8081:8081"
+
+
+
