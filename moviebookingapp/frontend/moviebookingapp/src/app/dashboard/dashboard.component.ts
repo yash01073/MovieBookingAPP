@@ -30,7 +30,9 @@ export class DashboardComponent implements OnInit {
         this.movieList = response.movieList.filter((movie: any) => movie.remainingTickets > 0);
       },
       error => {
-        console.error('Error fetching movie list', error);
+        this.router.navigate(['/error'], {
+          queryParams: { message: 'No Shows Available!' }
+        });
       }
     );
   }
