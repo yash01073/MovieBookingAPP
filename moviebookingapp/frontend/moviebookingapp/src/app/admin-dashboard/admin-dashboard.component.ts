@@ -42,7 +42,7 @@ movieList: any[] = [];
   }
 
   fetchMovieList() {
-    const apiUrl = 'http://localhost:8080/api/v1.0/moviebooking/all';
+    const apiUrl = 'https://moviebookingapp-261023.azurewebsites.net/api/movies';
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ movieList: any[] = [];
         'Authorization': 'Bearer ' + sessionStorage.getItem('jwtToken') // Include JWT token
       });
   
-      const apiUrl = 'http://localhost:8080/api/v1.0/moviebooking/updateStatus';
+      const apiUrl = 'https://moviebookingapp-261023.azurewebsites.net/api/update';
   
       try {
         // Make the POST request with headers and the booking request data

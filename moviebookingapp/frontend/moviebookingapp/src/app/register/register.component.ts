@@ -41,7 +41,7 @@ export class RegisterComponent {
     }else {
       this.passwordsMatch = true;
     }
-    const apiUrl = 'http://localhost:8080/api/v1.0/moviebooking/register';
+    const apiUrl = 'https://moviebookingapp-261023.azurewebsites.net/api/signup';
 
     this.http.post(apiUrl, this.registerData).subscribe(
       response => {

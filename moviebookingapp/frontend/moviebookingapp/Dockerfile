@@ -20,7 +20,7 @@ COPY . .
 RUN ng build --configuration production
 
 # Expose port 8081 for serving the application
-EXPOSE 8081
+EXPOSE 8080
 
 # Start the application on port 8081
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "8081"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "8080"]

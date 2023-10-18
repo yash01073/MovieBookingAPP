@@ -1,0 +1,8 @@
+
+mvn clean package -Dmaven.test.skip=true
+
+mvn azure-functions:run
+
+mvn azure-functions:deploy
+
+TASKKILL /IM func.exe /T /F

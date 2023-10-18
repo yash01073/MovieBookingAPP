@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchMovieList() {
-    const apiUrl = 'http://localhost:8080/api/v1.0/moviebooking/all';
+    const apiUrl = 'https://moviebookingapp-261023.azurewebsites.net/api/movies';
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

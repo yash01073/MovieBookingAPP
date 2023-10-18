@@ -77,7 +77,7 @@ export class SeatSelectionComponent implements OnInit {
       'Authorization': 'Bearer ' + sessionStorage.getItem('jwtToken') // Include JWT token
     });
 
-    const apiUrl = 'http://localhost:8080/api/v1.0/moviebooking/add';
+    const apiUrl = 'https://moviebookingapp-261023.azurewebsites.net/api/book';
 
     // Send the booking request to the API
     // Implement your HTTP POST request to the booking API here

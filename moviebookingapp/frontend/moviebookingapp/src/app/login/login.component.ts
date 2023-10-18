@@ -13,7 +13,7 @@ export class LoginComponent {
   login() {
     const loginId = (document.getElementById('loginId') as HTMLInputElement).value;
     const password = (document.getElementById('password') as HTMLInputElement).value;
-    const apiUrl = 'http://localhost:8080/api/v1.0/moviebooking/login';
+    const apiUrl = 'https://moviebookingapp-261023.azurewebsites.net/api/login';
 
     const data = {
       loginId,
