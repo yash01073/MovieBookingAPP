@@ -48,6 +48,7 @@ db.movie.insertMany([
 ])
 
 db.movie.createIndex({ movieName: 1, theatreName: 1 }, { unique: true })
+db.movie.deleteMany({})
 
 start in local
 /bin:mongod

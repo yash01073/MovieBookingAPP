@@ -1,3 +1,4 @@
+/*
 package com.moviebookingapp.controllers;
 
 import com.moviebookingapp.exceptions.MovieProcessException;
@@ -32,8 +33,10 @@ public class AdminController {
     @Autowired
     MovieService movieService;
 
-    @Autowired
-    KafkaTemplate kafkaTemplate;
+    */
+/*@Autowired
+    KafkaTemplate kafkaTemplate;*//*
+
 
     @PutMapping("/updateStatus")
     @PreAuthorize("hasRole('ADMIN')")
@@ -47,8 +50,8 @@ public class AdminController {
         object.setMovie(movie);
         object.setBookedTickets(bookedTickets);
         object.setAllSeatNumbers(seatNumber);
-        kafkaTemplate.send("ticket-availability-topic",object);
-        //movieService.updateTicketStatus(object.getBookedTickets(), object.getMovie());
+        //kafkaTemplate.send("ticket-availability-topic",object);
+        movieService.updateTicketStatus(object.getBookedTickets(), object.getMovie(),object.getAllSeatNumbers());
         TicketAvailabilityResponse response = new TicketAvailabilityResponse();
         response.setTicketsBooked(bookedTickets);
         response.setMessage("Status Updated Successfully");
@@ -77,3 +80,4 @@ public class AdminController {
     }
 
 }
+*/

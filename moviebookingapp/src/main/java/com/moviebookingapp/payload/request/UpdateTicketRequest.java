@@ -11,4 +11,6 @@ public class UpdateTicketRequest {
 
     private String theatreName;
 
+    private String token;
+
 }

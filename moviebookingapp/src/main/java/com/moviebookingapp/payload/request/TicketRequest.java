@@ -17,6 +17,8 @@ public class TicketRequest {
 
     private List<Integer> seatNumbers;
 
+    private String token;
+
 
 
 

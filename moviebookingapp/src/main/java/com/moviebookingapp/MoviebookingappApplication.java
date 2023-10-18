@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication
 @EnableMongoRepositories
 public class MoviebookingappApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MoviebookingappApplication.class, args);
 	}

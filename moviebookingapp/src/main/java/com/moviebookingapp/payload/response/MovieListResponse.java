@@ -10,5 +10,6 @@ import java.util.List;
 @Setter
 public class MovieListResponse {
 
+    private String code;
     private List<Movie> movieList;
 }

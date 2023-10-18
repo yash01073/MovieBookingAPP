@@ -1,3 +1,4 @@
+/*
 package com.moviebookingapp.controllers;
 
 
@@ -135,3 +136,4 @@ public class AuthController {
     return ResponseEntity.ok(new CustomResponse("0000","True","User Registered Successfully"));
   }
 }
+*/

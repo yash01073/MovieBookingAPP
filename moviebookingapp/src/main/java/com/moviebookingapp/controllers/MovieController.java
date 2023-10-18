@@ -1,23 +1,8 @@
 package com.moviebookingapp.controllers;
 
-import com.moviebookingapp.exceptions.MovieProcessException;
-import com.moviebookingapp.models.Movie;
-import com.moviebookingapp.models.Ticket;
-import com.moviebookingapp.payload.request.ChangePasswordRequest;
-import com.moviebookingapp.payload.request.TicketRequest;
-import com.moviebookingapp.payload.response.CustomResponse;
-import com.moviebookingapp.payload.response.MovieListResponse;
-import com.moviebookingapp.security.jwt.JwtUtils;
-import com.moviebookingapp.security.services.UserDetailsServiceImpl;
-import com.moviebookingapp.services.MovieService;
-import com.moviebookingapp.services.TicketService;
-import org.apache.commons.lang3.StringUtils;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,23 +14,12 @@ public class MovieController {
 
   private final Logger logger = LogManager.getLogger(MovieController.class);
 
-  @Autowired
-  PasswordEncoder encoder;
-
-  @Autowired
-  private MovieService movieService;
-
-  @Autowired
-  private UserDetailsServiceImpl userDetailsService;
-
-  @Autowired
-  TicketService ticketService;
-
-  @Autowired
-  private JwtUtils jwtUtils;
 
 
-  @PostMapping("/{username}/forgot")
+
+
+
+  /*@PostMapping("/{username}/forgot")
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity<?> changePassword(@RequestHeader(name = "Authorization") String authToken,@PathVariable String username, @Valid @RequestBody ChangePasswordRequest passwordRequest) {
     logger.info("Inside Password change Controller");
@@ -122,5 +96,5 @@ public class MovieController {
     if(value==null){
       throw new MovieProcessException(key+" is not found");
     }
-  }
+  }*/
 }

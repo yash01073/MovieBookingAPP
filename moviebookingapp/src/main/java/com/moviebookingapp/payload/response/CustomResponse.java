@@ -20,4 +20,8 @@ public class CustomResponse {
     private String message;
 
     private String errorMessage;
+
+    public CustomResponse() {
+
+    }
 }
